@@ -1,5 +1,6 @@
 #include "env.h"
 #include "binlog.h"
+#include "data.h"
 
 #include "xdebug.h"
 
@@ -18,7 +19,7 @@ Binlog::Binlog(const std::string& path)
 
   GetCurNum();
 
-  data_ = new Data(cur_nu_);
+  data_ = new Data(path_, cur_num_);
   log_info("%d", ans);
   
 }
@@ -39,15 +40,18 @@ int Binlog::GetCurNum()
     }
   }
   cur_num_ = max_cur_num;
-
   return res;
-
 }
 
 int Binlog::Append(const std::string& item)
 {
+  return data_->Append(item);
 }
 
 int Binlog::Next()
+{
+}
+
+Iterator* NewIterator()
 {
 }

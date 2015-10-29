@@ -7,6 +7,7 @@
 
 class Index;
 class Data;
+class Iterator;
 
 class Binlog
 {
@@ -17,6 +18,8 @@ public:
 
   int Next();
 
+  Iterator* NewIterator();
+
 private:
   std::string path_;
   int cur_num_;
@@ -24,6 +27,9 @@ private:
   Data *data_;
 
   int GetCurNum();
+
+  Binlog(const Binlog&);
+  void operator =(const Binlog&);
 
 };
 
