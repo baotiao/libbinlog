@@ -2,12 +2,15 @@
 #define DATA_H_
 
 #include <string>
+#include "env.h"
+
+struct Gid;
 
 class Data {
 public:
-  Data(std::string path, int filenum);
-  int Open();
+  Data(std::string path, int filenum, Gid *gid);
   ~Data();
+  int Open();
   int Append(const std::string &str);
 
 private:
@@ -15,9 +18,16 @@ private:
   int filenum_;
   std::string path_;
 
-  FILE *f_;
+  WritableFile *writableFile_;
 
-  std::string GetFileName();
+  Gid *gid_;
+
+  char *buf_;
+
+  int PackData(const std::string &str);
+
+
+  std::string GetFileName() const;
 
 };
 

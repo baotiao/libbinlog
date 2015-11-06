@@ -4,9 +4,43 @@
 #include <string>
 #include <vector>
 
+class WritableFile;
+// class PosixWritableFile;
+
+// File operator
 int CreateDir(const std::string& path);
 
 int FileExists(const std::string& path);
 
 int GetChildren(const std::string& dir, std::vector<std::string>& result);
+
+int NewWritableFile(const std::string& fname, WritableFile** result);
+
+class WritableFile 
+{
+public:
+  WritableFile();
+  virtual ~WritableFile();
+  virtual int Append(const char* data) = 0;
+  virtual int Close() = 0;
+  virtual int Flush() = 0;
+  virtual int Sync() = 0;
+
+private:
+  WritableFile(const WritableFile&);
+  void operator =(const WritableFile&);
+
+};
+
+
+// A abstract for the sequential readable file
+class SequentialFile
+{
+public:
+  SequentialFile() {};
+  virtual ~SequentialFile();
+  virtual int Read(size_t n, char* result, char* scratch) = 0;
+  virtual int Skip(uint64_t n) = 0;
+};
+
 #endif

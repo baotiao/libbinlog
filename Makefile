@@ -47,9 +47,6 @@ $(OBJECT): $(OBJS)
 $(OBJS): %.o : %.cc
 	$(CXX) $(CXXFLAGS) -c $< -o $@ $(INCLUDE_PATH) 
 
-$(TOBJS): %.o : %.cc
-	$(CXX) $(CXXFLAGS) -c $< -o $@ $(INCLUDE_PATH) 
-
 clean: 
 	rm -rf $(SRC_DIR)/*.o
 	rm -rf $(OUTPUT)/*

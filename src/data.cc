@@ -1,15 +1,25 @@
 #include "data.h"
+#include "xdebug.h"
+#include "gid.h"
 
 #include <string>
-Data::Data(std::string path, int filenum) :
+
+Data::Data(std::string path, int filenum, Gid *gid) :
   path_(path),
-  filenum_(filenum)
+  filenum_(filenum),
+  gid_(gid)
 {
-  f_ = fopen(GetFileName().c_str(), "w");
+  NewWritableFile(GetFileName(), &writableFile_);
+  buf_ = (char *)malloc(sizeof(char) * 10240);
 
 }
 
-std::string Data::GetFileName()
+Data::~Data()
+{
+
+}
+
+std::string Data::GetFileName() const
 {
   char buf[128];
   snprintf(buf, sizeof(buf), "%s/binlog.%d", path_.c_str(), filenum_);
@@ -18,10 +28,18 @@ std::string Data::GetFileName()
 
 int Data::Append(const std::string &str)
 {
-  size_t r = fwrite(str.c_str(), 1, str.size(), f_);
-  if (r != str.size()) {
-    return -1;
-  } else {
-    return r;
-  }
+  std::string tmp;
+  gid_->EncodeTo(tmp);
+  char buf[10];
+  int len = str.length();
+  memcpy(buf, &len, sizeof(len));
+  tmp.append(buf, sizeof(len));
+  tmp.append(str);
+  return writableFile_->Append(tmp.c_str());
+}
+
+int Data::PackData(const std::string &str)
+{
+
+  return 0;
 }

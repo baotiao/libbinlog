@@ -28,4 +28,4 @@
 *.app
 
 ./db/
-./output/
+./output

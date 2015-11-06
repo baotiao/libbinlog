@@ -1,13 +1,15 @@
 #ifndef ITERATOR_H_
 #define ITERATOR_H_
 
+#include <string>
+
 class Iterator {
 public:
   Iterator();
   
   virtual bool Valid() const = 0;
   
-  virtual bool Next() = 0;
+  virtual void Next() = 0;
 
   virtual void Seek(const std::string& target) = 0;
 

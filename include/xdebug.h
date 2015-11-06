@@ -10,6 +10,7 @@
 #define  __XDEBUG_H_
 #include <stdio.h>
 #include <errno.h>
+#include <iostream>
 
 #include <unistd.h>
 #include <string.h>
@@ -20,6 +21,8 @@
 { \
 	fprintf(stderr, "[----------debug--------][%s:%d]" fmt "\n", __FILE__, __LINE__, ##arg); \
 }
+#define debug(x) std::cout<<__LINE__<<" "<<#x<<" = "<<x<<std::endl;
+#define debug2(x, y) std::cout<<__LINE__<<" "<<#x<<" = "<<x<<" "<<#y<<" = "<<y<<std::endl;
 #define pint(x) qf_debug("%s = %d", #x, x)
 #define psint(x) qf_debug("%s = %zu", #x, x)
 #define psize(x) qf_debug("%s = %zu", #x, x)
@@ -52,6 +55,8 @@
 #else
 
 #define qf_debug(fmt, arg...) {}
+#define debug(x)
+#define debug2(x)
 #define pint(x) {}
 #define pstr(x) {}
 #define qf_bin_debug(buf, size) {}

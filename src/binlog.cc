@@ -1,6 +1,7 @@
 #include "env.h"
 #include "binlog.h"
 #include "data.h"
+#include "bl_iter.h"
 
 #include "xdebug.h"
 
@@ -9,9 +10,9 @@
 #include <algorithm>
 #include <iostream>
 
-Binlog::Binlog(const std::string& path)
+Binlog::Binlog(const std::string& path) :
+  path_(path)
 {
-  path_ = path;
   int ans = FileExists(path_);
   if (ans == false) {
     CreateDir(path_);
@@ -19,7 +20,8 @@ Binlog::Binlog(const std::string& path)
 
   GetCurNum();
 
-  data_ = new Data(path_, cur_num_);
+  gid_ = new Gid(1);
+  data_ = new Data(path_, cur_num_, gid_);
   log_info("%d", ans);
   
 }
@@ -45,13 +47,11 @@ int Binlog::GetCurNum()
 
 int Binlog::Append(const std::string& item)
 {
-  return data_->Append(item);
+  data_->Append(item);
+  gid_->Update();
 }
 
-int Binlog::Next()
+Iterator* NewIterator(const Gid *gid)
 {
-}
-
-Iterator* NewIterator()
-{
+  return NewBLIterator(gid);
 }
