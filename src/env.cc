@@ -133,12 +133,18 @@ public:
     return 0;
   };
 
-  virtual int Skip(uint64_t n) {
+  virtual int Skip(uint64_t n) override {
     if (fseek(f_, static_cast<long int>(n), SEEK_CUR)) {
       return errno;
     }
     return 0;
   };
+
+  virtual int Close() override {
+    int ret = fclose(f_);
+    f_ = NULL;
+    return ret;
+  }
 
 private:
   std::string fname_;
@@ -149,3 +155,17 @@ private:
   void operator =(const PosixSequentialFile&);
 
 };
+
+int NewSequentialFile(const std::string& fname, SequentialFile** result)
+{
+  int ret;
+  FILE *f = fopen(fname.c_str(), "r");
+  if (f == NULL) {
+    *result = NULL;
+    return -1;
+  } else {
+    *result = new PosixSequentialFile(fname, f);
+    return 0;
+  }
+  return ret;
+}

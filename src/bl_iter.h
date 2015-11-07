@@ -3,7 +3,6 @@
 
 #include "iterator.h"
 #include "env.h"
-
 #include "gid.h"
 
 
@@ -16,10 +15,10 @@ public:
   ~BLIter();
 
 
-  virtual bool Valid();
+  virtual bool Valid() const;
 
   virtual void Next();
-  virtual void Seek();
+  virtual void Seek(const std::string& target);
 
 private:
 
