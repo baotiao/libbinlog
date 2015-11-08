@@ -108,6 +108,10 @@ int NewWritableFile(const std::string& fname, WritableFile** result)
 }
 
 
+SequentialFile::~SequentialFile()
+{
+}
+
 class PosixSequentialFile: public SequentialFile 
 {
 public:
@@ -122,6 +126,8 @@ public:
     do {
       r = fread(scratch, 1, n, f_);
     } while (r == 0 && ferror(f_) && errno == EINTR);
+
+    result = scratch;
 
     if (r < n) {
       if (feof(f_)) {

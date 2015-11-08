@@ -5,24 +5,25 @@
 #include "env.h"
 #include "gid.h"
 
+class DataReader;
 
 extern Iterator* NewBLIterator(const Gid *gid);
 
 
 class BLIter: public Iterator {
 public:
-  explicit BLIter(const Gid *gid);
+  BLIter();
   ~BLIter();
 
 
   virtual bool Valid() const;
 
   virtual void Next();
-  virtual void Seek(const std::string& target);
+  virtual void Seek(const std::string &target);
 
 private:
 
-  SequentialFile *sequentialFile_;
+  DataReader *dataReader_;
 
 };
 

@@ -1,10 +1,10 @@
-#include "data.h"
+#include "data_builder.h"
 #include "xdebug.h"
 #include "gid.h"
 
 #include <string>
 
-Data::Data(std::string path, int filenum, Gid *gid) :
+DataBuilder::DataBuilder(std::string path, int filenum, Gid *gid) :
   path_(path),
   filenum_(filenum),
   gid_(gid)
@@ -14,19 +14,19 @@ Data::Data(std::string path, int filenum, Gid *gid) :
 
 }
 
-Data::~Data()
+DataBuilder::~DataBuilder()
 {
 
 }
 
-std::string Data::GetFileName() const
+std::string DataBuilder::GetFileName() const
 {
   char buf[128];
   snprintf(buf, sizeof(buf), "%s/binlog.%d", path_.c_str(), filenum_);
   return buf;
 }
 
-int Data::Append(const std::string &str)
+int DataBuilder::Append(const std::string &str)
 {
   std::string tmp;
   gid_->EncodeTo(tmp);
@@ -38,7 +38,7 @@ int Data::Append(const std::string &str)
   return writableFile_->Append(tmp.c_str());
 }
 
-int Data::PackData(const std::string &str)
+int DataBuilder::PackData(const std::string &str)
 {
 
   return 0;

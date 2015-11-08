@@ -1,15 +1,15 @@
-#ifndef DATA_H_
-#define DATA_H_
+#ifndef DATA_BUILDER_H_
+#define DataBuilder_H_
 
 #include <string>
 #include "env.h"
 
 struct Gid;
 
-class Data {
+class DataBuilder {
 public:
-  Data(std::string path, int filenum, Gid *gid);
-  ~Data();
+  DataBuilder(std::string path, int filenum, Gid *gid);
+  ~DataBuilder();
   int Open();
   int Append(const std::string &str);
 

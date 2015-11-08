@@ -1,6 +1,6 @@
 #include "env.h"
 #include "binlog.h"
-#include "data.h"
+#include "data_builder.h"
 #include "bl_iter.h"
 
 #include "xdebug.h"
@@ -20,8 +20,8 @@ Binlog::Binlog(const std::string& path) :
 
   GetCurNum();
 
-  gid_ = new Gid(1);
-  data_ = new Data(path_, cur_num_, gid_);
+  gid_ = new Gid(uint32_t(1));
+  dataBuilder_ = new DataBuilder(path_, cur_num_, gid_);
   log_info("%d", ans);
   
 }
@@ -47,11 +47,11 @@ int Binlog::GetCurNum()
 
 int Binlog::Append(const std::string& item)
 {
-  data_->Append(item);
+  dataBuilder_->Append(item);
   gid_->Update();
 }
 
-Iterator* NewIterator(const Gid *gid)
+Iterator* Binlog::NewIterator()
 {
-  return NewBLIterator(gid);
+  return NewBLIterator(gid_);
 }

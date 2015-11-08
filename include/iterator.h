@@ -6,6 +6,7 @@
 class Iterator {
 public:
   Iterator();
+  virtual ~Iterator();
   
   virtual bool Valid() const = 0;
   

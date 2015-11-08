@@ -5,20 +5,26 @@
 
 class Gid {
 public:
-  explicit Gid(int sid);
-  Gid(int sid, int op, int ts);
+  Gid() {};
+  explicit Gid(uint32_t sid);
+  Gid(uint32_t sid, uint32_t op, uint32_t ts);
 
   ~Gid() {};
 
+  uint32_t op() { return op_; };
+  uint32_t sid() { return sid_; };
   int Update();
   int EncodeTo(std::string &str) const;
-  int DecodeFrom(char *str);
+  int DecodeFrom(const std::string &);
 
+
+  void DumpSelf() const;
+  std::string DebugString() const;
 
 private:
-  int sid_;
-  int op_;
-  int ts_;
+  uint32_t sid_;
+  uint32_t op_;
+  uint32_t ts_;
 };
 
 #endif

@@ -1,4 +1,4 @@
-CXX = g++
+CXX = /home/chenzongzhi/git/colorgcc/colorgcc.pl
 
 ifeq ($(__PERF), 1)
   CXXFLAGS = -O0 -g -pg -pipe -fPIC -D__XDEBUG__ -W -Wwrite-strings -Wpointer-arith -Wreorder -Wswitch -Wsign-promo -Wredundant-decls -Wformat -Wall -Wconversion -D_GNU_SOURCE -std=c++11

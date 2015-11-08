@@ -11,19 +11,22 @@
 
 
 class Index;
-class Data;
+class DataBuilder;
 class Iterator;
 struct Gid;
 
 class Binlog
 {
 public:
-  explicit Binlog(const std::string& path);
+  explicit Binlog(const std::string &path);
   ~Binlog();
-  int Append(const std::string& item);
-  int LastBinlog(Gid &gid, std::string& item);
+  int Append(const std::string &item);
+  int LastBinlog(Gid &gid, std::string &item);
 
   Iterator* NewIterator();
+  Gid* gid() {
+    return gid_;
+  }
 
 private:
   // when we restart the binlog, we need to build the index if it dosen't exist
@@ -38,7 +41,7 @@ private:
   std::string path_;
   int cur_num_;
   Gid *gid_;
-  Data *data_;
+  DataBuilder *dataBuilder_;
   Index *index_;
 
   int GetCurNum();
