@@ -47,11 +47,18 @@ int Binlog::GetCurNum()
 
 int Binlog::Append(const std::string& item)
 {
+  int ret = 0;
   dataBuilder_->Append(item);
   gid_->Update();
+  return ret;
 }
 
 Iterator* Binlog::NewIterator()
 {
-  return NewBLIterator(gid_);
+  return NewBLIterator(path_);
+}
+
+void Binlog::Close()
+{
+  dataBuilder_->Close();
 }

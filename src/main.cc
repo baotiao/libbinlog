@@ -9,15 +9,14 @@ int main()
 
   int i = 10;
   while (i--) {
-    binlog->Append("heihei");
+    binlog->Append("hei");
   }
-  binlog->gid()->DumpSelf();
+
+  // binlog->Close();
 
   Iterator *iter = binlog->NewIterator();
-
   std::string sgid;
   binlog->gid()->EncodeTo(sgid);
-
   iter->Seek(sgid);
   
 

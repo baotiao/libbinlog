@@ -5,14 +5,17 @@
 #include "env.h"
 #include "gid.h"
 
+
+#include <string>
+
 class DataReader;
 
-extern Iterator* NewBLIterator(const Gid *gid);
+extern Iterator* NewBLIterator(const std::string &path);
 
 
 class BLIter: public Iterator {
 public:
-  BLIter();
+  BLIter(const std::string &path);
   ~BLIter();
 
 
@@ -22,6 +25,8 @@ public:
   virtual void Seek(const std::string &target);
 
 private:
+
+  std::string path_;
 
   DataReader *dataReader_;
 

@@ -15,7 +15,7 @@ public:
 
   std::string GetFileName() const;
 
-  int Read(size_t n, std::string &result);
+  int Read(size_t n, char *result);
 
   bool Valid();
 

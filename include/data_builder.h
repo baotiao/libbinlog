@@ -13,6 +13,8 @@ public:
   int Open();
   int Append(const std::string &str);
 
+  void Close();
+
 private:
   int fd_;
   int filenum_;

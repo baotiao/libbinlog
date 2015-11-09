@@ -1,12 +1,10 @@
 #include "env.h"
+#include "xdebug.h"
+
 #include <unistd.h>
 #include <sys/stat.h>
 #include <dirent.h>
-
 #include <vector>
-
-#include "xdebug.h"
-
 
 int CreateDir(const std::string& path)
 {
@@ -58,8 +56,9 @@ public:
     fclose(f_);
   }
 
-  virtual int Append(const char* data) override {
-    size_t r = fwrite(data, 1, strlen(data), f_);
+  virtual int Append(const char* data, int len) override {
+    log_info("Writablefile %d", len);
+    size_t r = fwrite(data, 1, len, f_);
     if (r != strlen(data)) {
       return -1;
     } else {
@@ -107,7 +106,6 @@ int NewWritableFile(const std::string& fname, WritableFile** result)
   return ret;
 }
 
-
 SequentialFile::~SequentialFile()
 {
 }
@@ -120,7 +118,7 @@ public:
     f_(f)
   {};
 
-  virtual int Read(size_t n, char* result, char* scratch) override {
+  virtual int Read(size_t n, char *&result, char *scratch) override {
     int ret = 0;
     size_t r = 0;
     do {
@@ -164,7 +162,7 @@ private:
 
 int NewSequentialFile(const std::string& fname, SequentialFile** result)
 {
-  int ret;
+  log_info("fname %s", fname.c_str());
   FILE *f = fopen(fname.c_str(), "r");
   if (f == NULL) {
     *result = NULL;
@@ -173,5 +171,4 @@ int NewSequentialFile(const std::string& fname, SequentialFile** result)
     *result = new PosixSequentialFile(fname, f);
     return 0;
   }
-  return ret;
 }

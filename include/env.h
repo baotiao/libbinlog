@@ -21,7 +21,7 @@ class WritableFile
 public:
   WritableFile();
   virtual ~WritableFile();
-  virtual int Append(const char* data) = 0;
+  virtual int Append(const char* data, int len) = 0;
   virtual int Close() = 0;
   virtual int Flush() = 0;
   virtual int Sync() = 0;
@@ -41,7 +41,7 @@ class SequentialFile
 public:
   SequentialFile() {};
   virtual ~SequentialFile();
-  virtual int Read(size_t n, char* result, char* scratch) = 0;
+  virtual int Read(size_t n, char *&result, char *scratch) = 0;
   virtual int Skip(uint64_t n) = 0;
   virtual int Close() = 0;
 };

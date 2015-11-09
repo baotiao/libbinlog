@@ -23,6 +23,8 @@ public:
   int Append(const std::string &item);
   int LastBinlog(Gid &gid, std::string &item);
 
+  void Close();
+
   Iterator* NewIterator();
   Gid* gid() {
     return gid_;

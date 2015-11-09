@@ -26,16 +26,24 @@ std::string DataBuilder::GetFileName() const
   return buf;
 }
 
-int DataBuilder::Append(const std::string &str)
+int DataBuilder::Append(const std::string &item)
 {
   std::string tmp;
   gid_->EncodeTo(tmp);
-  char buf[10];
-  int len = str.length();
-  memcpy(buf, &len, sizeof(len));
-  tmp.append(buf, sizeof(len));
-  tmp.append(str);
-  return writableFile_->Append(tmp.c_str());
+  char buf[12];
+  uint32_t len = item.size();
+  memcpy(buf, &len, sizeof(uint32_t));
+  tmp.append(buf, sizeof(uint32_t));
+  tmp += item;
+
+  log_info("tmp %s item %s", tmp.c_str(), item.c_str());
+
+  return writableFile_->Append(tmp.c_str(), tmp.size());
+}
+
+void DataBuilder::Close()
+{
+  writableFile_->Close();
 }
 
 int DataBuilder::PackData(const std::string &str)
