@@ -24,11 +24,19 @@ public:
   virtual void Next();
   virtual void Seek(const std::string &target);
 
+  virtual void SeekToFirst();
+
+  virtual std::string value();
+
 private:
 
   std::string path_;
 
   DataReader *dataReader_;
+
+  std::string key_;
+  std::string value_;
+  bool valid_;
 
 };
 

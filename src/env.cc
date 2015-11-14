@@ -39,9 +39,11 @@ int GetChildren(const std::string& dir, std::vector<std::string>& result)
 
 WritableFile::WritableFile()
 {
+
 }
 WritableFile::~WritableFile()
 {
+
 }
 
 class PosixWritableFile: public WritableFile {
@@ -59,6 +61,7 @@ public:
   virtual int Append(const char* data, int len) override {
     log_info("Writablefile %d", len);
     size_t r = fwrite(data, 1, len, f_);
+    fflush(f_);
     if (r != strlen(data)) {
       return -1;
     } else {
@@ -95,7 +98,7 @@ private:
 int NewWritableFile(const std::string& fname, WritableFile** result) 
 {
   int ret;
-  FILE *f = fopen(fname.c_str(), "w");
+  FILE *f = fopen(fname.c_str(), "a");
   if (f == NULL) {
     *result = NULL;
     return -1;
@@ -118,6 +121,9 @@ public:
     f_(f)
   {};
 
+  /*
+   * if read to the EOF return EOF
+   */
   virtual int Read(size_t n, char *&result, char *scratch) override {
     int ret = 0;
     size_t r = 0;
@@ -134,7 +140,7 @@ public:
         return errno;
       }
     }
-    return 0;
+    return r;
   };
 
   virtual int Skip(uint64_t n) override {

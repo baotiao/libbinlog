@@ -13,8 +13,7 @@
 Binlog::Binlog(const std::string& path) :
   path_(path)
 {
-  int ans = FileExists(path_);
-  if (ans == false) {
+  if (FileExists(path_) == false) {
     CreateDir(path_);
   }
 
@@ -22,13 +21,10 @@ Binlog::Binlog(const std::string& path) :
 
   gid_ = new Gid(uint32_t(1));
   dataBuilder_ = new DataBuilder(path_, cur_num_, gid_);
-  log_info("%d", ans);
-  
 }
 
-int Binlog::GetCurNum()
+void Binlog::GetCurNum()
 {
-  int res = 0;
   std::vector<std::string> childrens;
   GetChildren(path_, childrens);
   int max_cur_num = 0;
@@ -42,7 +38,6 @@ int Binlog::GetCurNum()
     }
   }
   cur_num_ = max_cur_num;
-  return res;
 }
 
 int Binlog::Append(const std::string& item)

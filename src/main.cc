@@ -5,19 +5,19 @@
 
 int main()
 {
-  Binlog *binlog = new Binlog("./db/");
+  Binlog *binlog = new Binlog("./db");
 
-  int i = 10;
-  while (i--) {
-    binlog->Append("hei");
-  }
-
-  // binlog->Close();
+  int i = 1;
+  binlog->Append("a");
 
   Iterator *iter = binlog->NewIterator();
+
   std::string sgid;
   binlog->gid()->EncodeTo(sgid);
-  iter->Seek(sgid);
+
+  for (iter->SeekToFirst(); iter->Valid(); iter->Next()) {
+    log_info("iter->value", iter->value().c_str());
+  }
   
 
   return 0;

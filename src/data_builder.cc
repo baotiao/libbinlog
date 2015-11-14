@@ -1,6 +1,7 @@
 #include "data_builder.h"
 #include "xdebug.h"
 #include "gid.h"
+#include "env.h"
 
 #include <string>
 
@@ -11,7 +12,6 @@ DataBuilder::DataBuilder(std::string path, int filenum, Gid *gid) :
 {
   NewWritableFile(GetFileName(), &writableFile_);
   buf_ = (char *)malloc(sizeof(char) * 10240);
-
 }
 
 DataBuilder::~DataBuilder()

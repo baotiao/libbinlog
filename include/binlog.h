@@ -46,7 +46,7 @@ private:
   DataBuilder *dataBuilder_;
   Index *index_;
 
-  int GetCurNum();
+  void GetCurNum();
 
   // copy and copy assign should be private
   Binlog(const Binlog&);

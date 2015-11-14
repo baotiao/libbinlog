@@ -13,6 +13,10 @@ public:
   virtual void Next() = 0;
 
   virtual void Seek(const std::string& target) = 0;
+  
+  virtual void SeekToFirst() = 0;
+  
+  virtual std::string value() = 0;
 
 private:
 
